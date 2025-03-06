@@ -35,6 +35,7 @@ export class PropertyViewTreeComponent {
   readonly treeControl = input.required<FlatTreeControl<FlatNode>>();
   readonly updateValue = output<any>();
   readonly inspect = output<any>();
+  readonly watchSignal = output<any>();
 
   hasChild = (_: number, node: FlatNode): boolean => node.expandable;
 
@@ -59,5 +60,9 @@ export class PropertyViewTreeComponent {
       node,
       newValue,
     });
+  }
+
+  handleSignalClick(node: FlatNode): void {
+    this.watchSignal.emit(node);
   }
 }

@@ -30,7 +30,7 @@ import {
   getInjectorProviders,
   getInjectorResolutionPath,
 } from './injector_discovery_utils';
-import {getSignalGraph} from './signal_debug';
+import {getSignalGraph, toggleDebugSignal} from './signal_debug';
 
 /**
  * This file introduces series of globally accessible debug tools
@@ -81,6 +81,7 @@ const globalUtilsFunctions = {
   'getDirectives': getDirectives,
   'applyChanges': applyChanges,
   'isSignal': isSignal,
+  'toggleDebugSignal': toggleDebugSignal,
 };
 type CoreGlobalUtilsFunctions = keyof typeof globalUtilsFunctions;
 type ExternalGlobalUtilsFunctions = keyof NgGlobalPublishUtils;

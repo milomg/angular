@@ -28,10 +28,12 @@
   </as-split-area>
   <as-split-area size="40" minSize="25" class="prop-split">
     <div class="property-tab-wrapper">
+      <ng-signals-tab #signalsTab />
       <ng-property-tab
         [currentSelectedElement]="currentSelectedElement()"
         (inspect)="inspect($event)"
         (viewSource)="viewSource($event)"
+        (watchSignal)="watchSignal($event)"
       />
     </div>
     @if (isHydrationEnabled) {

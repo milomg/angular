@@ -22,6 +22,7 @@ import {PropertyViewHeaderComponent} from './property-view-header.component';
 export class PropertyViewComponent {
   readonly directive = input.required<{name: string}>();
   readonly inspect = output<{node: FlatNode; directivePosition: DirectivePosition}>();
+  readonly watchSignal = output<{node: FlatNode; directivePosition: DirectivePosition}>();
   readonly viewSource = output<void>();
 
   private _nestedProps = inject(ElementPropertyResolver);

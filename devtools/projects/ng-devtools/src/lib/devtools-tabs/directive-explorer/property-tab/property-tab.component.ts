@@ -23,4 +23,5 @@ export class PropertyTabComponent {
   readonly currentSelectedElement = input.required<IndexedNode>();
   readonly viewSource = output<string>();
   readonly inspect = output<{node: FlatNode; directivePosition: DirectivePosition}>();
+  readonly watchSignal = output<{node: FlatNode, directivePosition: DirectivePosition}>();
 }

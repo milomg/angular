@@ -5,6 +5,11 @@
       >:&nbsp;
       @if (!node.prop.descriptor.editable) {
         <ng-property-preview (inspect)="inspect.emit(node)" [node]="node"></ng-property-preview>
+        @if (
+          node.prop.descriptor.containerType === 'ReadonlySignal' || node.prop.descriptor.containerType === 'WritableSignal'
+        ) {
+          <button (click)="handleSignalClick(node)">Toggle debug</button>
+        }
       } @else {
         <ng-property-editor
           [key]="node.prop.name"
@@ -13,6 +18,7 @@
           (updateValue)="handleUpdate(node, $event)"
         />
       }
+      <!-- if node is a signal -->
     </mat-tree-node>
     <mat-tree-node
       matTreeNodePaddingIndent="14"
@@ -30,6 +36,11 @@
           {{ node.prop.descriptor.preview }}
         </span>
       </div>
+      @if (
+        node.prop.descriptor.containerType === 'ReadonlySignal' || node.prop.descriptor.containerType === 'WritableSignal'
+      ) {
+        <button (click)="handleSignalClick(node)">Toggle debug</button>
+      }
     </mat-tree-node>
   </mat-tree>
 }

@@ -255,6 +255,9 @@ export interface Events {
   inspectorStart: () => void;
   inspectorEnd: () => void;
 
+  watchSignal: (signal: any) => void;
+  getSignalGraph: (query: InjectorGraphViewQuery) => void;
+
   getNestedProperties: (position: DirectivePosition, path: string[]) => void;
   nestedProperties: (position: DirectivePosition, data: Properties, path: string[]) => void;
 

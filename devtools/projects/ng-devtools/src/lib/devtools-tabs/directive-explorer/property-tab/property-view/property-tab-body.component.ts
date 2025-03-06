@@ -22,6 +22,7 @@ import {PropertyViewComponent} from './property-view.component';
 export class PropertyTabBodyComponent {
   readonly currentSelectedElement = input.required<IndexedNode>();
   readonly inspect = output<{node: FlatNode; directivePosition: DirectivePosition}>();
+  readonly watchSignal = output<{node: FlatNode; directivePosition: DirectivePosition}>();
   readonly viewSource = output<string>();
 
   readonly currentDirectives = computed(() => {

@@ -14,6 +14,7 @@ import {
   DirectiveType,
   ElementPosition,
   Events,
+  InjectorGraphViewQuery,
   MessageBus,
   ProfilerFrame,
   Route,
@@ -29,7 +30,7 @@ import {
   isHydrationEnabled,
 } from 'shared-utils';
 
-import {ComponentInspector} from './component-inspector/component-inspector';
+import { ComponentInspector } from './component-inspector/component-inspector';
 import {
   getElementInjectorElement,
   getInjectorFromElementNode,
@@ -51,7 +52,7 @@ import {disableTimingAPI, enableTimingAPI, initializeOrGetDirectiveForestHooks} 
 import {start as startProfiling, stop as stopProfiling} from './hooks/capture';
 import {ComponentTreeNode} from './interfaces';
 import {parseRoutes} from './router-tree';
-import {ngDebugDependencyInjectionApiIsSupported} from './ng-debug-api/ng-debug-api';
+import {ngDebugClient,ngDebugDependencyInjectionApiIsSupported} from './ng-debug-api/ng-debug-api';
 import {setConsoleReference} from './set-console-reference';
 import {serializeDirectiveState} from './state-serializer/state-serializer';
 import {runOutsideAngular, unwrapSignal} from './utils';
@@ -92,6 +93,10 @@ export const subscribeToClientEvents = (
   messageBus.on('log', ({message, level}) => {
     console[level](`[Angular DevTools]: ${message}`);
   });
+
+  messageBus.on('watchSignal', watchSignalCallback(messageBus))
+
+  messageBus.on('getSignalGraph', getSignalGraphCallback(messageBus))
 
   if (appIsAngularInDevMode() && appIsSupportedAngularVersion() && appIsAngularIvy()) {
     setupInspector(messageBus);
@@ -199,15 +204,18 @@ const getNestedPropertiesCallback =
       return emitEmpty();
     }
     let data = current.instance;
-    for (const prop of propPath) {
-      data = unwrapSignal(data[prop]);
-      if (!data) {
-        console.error('Cannot access the properties', propPath, 'of', node);
-      }
+    for (let i = 0; i < propPath.length; i++) {
+      const prop = propPath[i];
+      if (i !== propPath.length - 1) {
+        data = unwrapSignal(data[prop]);
+        if (!data) {
+          console.error('Cannot access the properties', propPath, 'of', node);
+        }
+      } else data = data[prop]
     }
     messageBus.emit('nestedProperties', [
       position,
-      {props: serializeDirectiveState(data)},
+      { props: serializeDirectiveState(data) },
       propPath,
     ]);
     return;
@@ -384,10 +392,10 @@ const prepareForestForSerialization = (
       element: node.element,
       component: node.component
         ? {
-            name: node.component.name,
-            isElement: node.component.isElement,
-            id: initializeOrGetDirectiveForestHooks().getDirectiveId(node.component.instance)!,
-          }
+          name: node.component.name,
+          isElement: node.component.isElement,
+          id: initializeOrGetDirectiveForestHooks().getDirectiveId(node.component.instance)!,
+        }
         : null,
       directives: node.directives.map((d) => ({
         name: d.name,
@@ -527,3 +535,42 @@ const logProvider = (
 
   console.groupEnd();
 };
+
+const watchSignalCallback = (messageBus: MessageBus<Events>) => (signal: { nodePath: string[], directivePosition: DirectivePosition }) => {
+  const { nodePath, directivePosition: position } = signal
+
+  // get raw signal object
+  const node = queryDirectiveForest(
+    position.element,
+    initializeOrGetDirectiveForestHooks().getIndexedDirectiveForest(),
+  );
+  if (!node) {
+    return
+  }
+
+  const current =
+    position.directive === undefined ? node.component : node.directives[position.directive];
+
+  if (!current) {
+    return
+  }
+
+  let data = current.instance;
+  for (let i = 0; i < nodePath.length; i++) {
+    const prop = nodePath[i];
+    if (i !== nodePath.length - 1) {
+      data = unwrapSignal(data[prop]);
+      if (!data) {
+        console.error('Cannot access the properties', nodePath, 'of', node);
+      }
+    } else data = data[prop]
+  }
+
+  const ng = ngDebugClient();
+  ng.toggleDebugSignal?.(data);
+
+  console.log('heere', signal, data)
+}
+
+const getSignalGraphCallback = (messageBus: MessageBus<Events>) => (query: InjectorGraphViewQuery) => {
+}

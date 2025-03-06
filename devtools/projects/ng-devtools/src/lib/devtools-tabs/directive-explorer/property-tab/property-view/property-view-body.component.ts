@@ -43,6 +43,7 @@ export class PropertyViewBodyComponent {
   readonly directiveStateControls = input.required<DirectiveTreeData>();
 
   readonly inspect = output<{node: FlatNode; directivePosition: DirectivePosition}>();
+  readonly watchSignal = output<{node: FlatNode; directivePosition: DirectivePosition}>();
 
   protected readonly panels = signal([
     {
@@ -82,6 +83,13 @@ export class PropertyViewBodyComponent {
 
   handleInspect(node: FlatNode): void {
     this.inspect.emit({
+      node,
+      directivePosition: this.controller().directivePosition,
+    });
+  }
+
+  handleWatchSignal(node: FlatNode): void {
+    this.watchSignal.emit({
       node,
       directivePosition: this.controller().directivePosition,
     });

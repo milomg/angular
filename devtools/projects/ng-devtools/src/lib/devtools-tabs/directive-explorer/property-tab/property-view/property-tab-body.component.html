@@ -4,6 +4,7 @@
       <ng-property-view
         (inspect)="inspect.emit($event)"
         (viewSource)="viewSource.emit(directive.name)"
+        (watchSignal)="watchSignal.emit($event)"
         [directive]="directive"
       />
     </div>

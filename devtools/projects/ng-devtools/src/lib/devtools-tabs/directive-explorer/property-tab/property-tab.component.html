@@ -3,6 +3,7 @@
 <ng-property-tab-body
   (inspect)="inspect.emit($event)"
   (viewSource)="viewSource.emit($event)"
+  (watchSignal)="watchSignal.emit($event)"
   [currentSelectedElement]="currentSelectedElement()"
 >
 </ng-property-tab-body>

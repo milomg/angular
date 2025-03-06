@@ -25,6 +25,7 @@ import {
   SIGNAL_NODE,
   SignalNode,
 } from '@angular/core/primitives/signals';
+import { Signal } from '../reactivity/api';
 
 export interface DebugSignalGraphNode {
   kind: string;
@@ -191,4 +192,24 @@ export function getSignalGraph(injector: Injector): DebugSignalGraph {
   const signalDependenciesMap = extractSignalNodesAndEdgesFromRoots(signalNodes);
 
   return getNodesAndEdgesFromSignalMap(signalDependenciesMap);
+}
+
+export function toggleDebugSignal(signal: Signal<unknown>) {
+  const signalNode = signal[SIGNAL] as ReactiveNode;
+  signalNode.consumerMarkedDirty = (e: ReactiveNode) => {
+    let stack: ReactiveNode = signalNode;
+    let updateStack = `${stack.debugName}`;
+    outer: while (stack.producerNode) {
+      for (const el of stack.producerNode) {
+        if (el.dirty) {
+          stack = el;
+          updateStack = `${stack.debugName}\n${updateStack}`;
+          console.log(stack.debugName);
+          continue outer;
+        }
+      }
+      break;
+    }
+    console.log(updateStack);
+  };
 }
