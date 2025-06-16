@@ -1570,7 +1570,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1603,7 +1603,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1636,7 +1636,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1669,7 +1669,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1700,7 +1700,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1730,7 +1730,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1760,7 +1760,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 
@@ -1789,7 +1789,7 @@ runInEachFileSystem(() => {
         const {code, messageText, relatedInformation, length} = errors[0];
 
         expect(code).toBe(ngErrorCode(ErrorCode.LOCAL_COMPILATION_UNRESOLVED_CONST));
-        expect(length).toBe(14), expect(relatedInformation).toBeUndefined();
+        (expect(length).toBe(14), expect(relatedInformation).toBeUndefined());
 
         const text = ts.flattenDiagnosticMessageText(messageText, '\n');
 

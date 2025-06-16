@@ -7,7 +7,10 @@
  */
 
 import {Fragment, h} from 'preact';
-import {FunctionSignatureMetadataRenderable, ParameterEntryRenderable} from '../entities/renderables.mjs';
+import {
+  FunctionSignatureMetadataRenderable,
+  ParameterEntryRenderable,
+} from '../entities/renderables.mjs';
 import {PARAM_KEYWORD_CLASS_NAME, REFERENCE_MEMBER_CARD_ITEM} from '../styling/css-classes.mjs';
 import {DeprecatedLabel} from './deprecated-label';
 import {Parameter} from './parameter';
