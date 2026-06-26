@@ -111,6 +111,7 @@ import {TraceEventFactory} from '../trace_event_factory';
         'gcTime',
         'gcTimeInScript',
         'majorGcTime',
+        'peakMemory',
         'pureScriptTime',
         'renderTime',
         'renderTimeInScript',
@@ -130,6 +131,7 @@ import {TraceEventFactory} from '../trace_event_factory';
         'gcTime',
         'gcTimeInScript',
         'majorGcTime',
+        'peakMemory',
         'pureScriptTime',
         'renderTime',
         'renderTimeInScript',
@@ -695,6 +697,17 @@ import {TraceEventFactory} from '../trace_event_factory';
           expect(data['gcTime']).toBe(5);
           expect(data['gcAmount']).toBe(1.5);
           expect(data['majorGcTime']).toBe(0);
+          expect(data['peakMemory']).toBe(2.5);
+          done();
+        });
+      });
+
+      it('should support peakMemory metric with gcAmount in start event', (done) => {
+        aggregate([
+          eventFactory.start('gc', 0, {'usedHeapSize': 1000, 'gcAmount': 1500}),
+          eventFactory.end('gc', 5, {'usedHeapSize': 1000}),
+        ]).then((data) => {
+          expect(data['peakMemory']).toBe(2.5);
           done();
         });
       });

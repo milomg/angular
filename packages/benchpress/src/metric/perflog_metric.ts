@@ -87,6 +87,7 @@ export class PerflogMetric extends Metric {
       res['gcTimeInScript'] = 'gc time in ms while executing scripts';
       res['gcAmount'] = 'gc amount in kbytes';
       res['majorGcTime'] = 'time of major gcs in ms';
+      res['peakMemory'] = 'peak memory (maximum used heap size) in kbytes';
       if (this._forceGc) {
         res['forcedGcTime'] = 'forced gc time in ms';
         res['forcedGcAmount'] = 'forced gc amount in kbytes';
@@ -227,6 +228,7 @@ export class PerflogMetric extends Metric {
       result['gcTime'] = 0;
       result['majorGcTime'] = 0;
       result['gcAmount'] = 0;
+      result['peakMemory'] = 0;
     }
     if (this._perfLogFeatures.render) {
       result['renderTime'] = 0;
@@ -370,6 +372,12 @@ export class PerflogMetric extends Metric {
             const majorGc = event['args']!['majorGc'];
             if (majorGc && majorGc) {
               result['majorGcTime'] += duration;
+            }
+            const heapAfter = startEvent['args']?.['usedHeapSize'] ?? 0;
+            const startGcAmount = startEvent['args']?.['gcAmount'] ?? 0;
+            const heapBefore = heapAfter + startGcAmount;
+            if (heapBefore > 0) {
+              result['peakMemory'] = Math.max(result['peakMemory'], heapBefore / 1000);
             }
             if (intervalStarts['script']) {
               gcTimeInScript += duration;
